@@ -1,0 +1,15 @@
+{
+  "name": "generator-functions-talk",
+  "private": true,
+  "scripts": {
+    "dev": "slidev --open",
+    "build": "slidev build",
+    "export": "slidev export"
+  },
+  "dependencies": {
+    "@slidev/cli": "^0.22.7",
+    "@slidev/theme-default": "*",
+    "playwright-chromium": "^1.16.3"
+  },
+  "packageManager": "yarn@3.1.0"
+}
