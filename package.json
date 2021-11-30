@@ -7,9 +7,8 @@
     "export": "slidev export"
   },
   "dependencies": {
-    "@slidev/cli": "^0.22.7",
+    "@slidev/cli": "^0.27.18",
     "@slidev/theme-default": "*",
     "playwright-chromium": "^1.16.3"
-  },
-  "packageManager": "yarn@3.1.0"
+  }
 }
