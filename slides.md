@@ -1,17 +1,79 @@
 ---
 highlighter: shiki
 info: |
-  ## Les fonctions génératrices en JavaScript
+  ## Les fonctions génératrices en JS
 
   <br>
 
   [Sources](https://github.com/nlepage/generator-functions-talk)
-title: Les fonctions génératrices en JavaScript
+title: Les fonctions génératrices en JS
 routerMode: hash
 download: true
-layout: intro
+lineNumbers: true
+layout: cover
 ---
 
-# Les fonctions génératrices en JavaScript
+# Les fonctions génératrices en JS
 
-## un super sous-titre ici
+```js
+function* miseEnJambe() {
+  yield 'Hello les Pixous !'
+}
+```
+
+<style>
+code {
+  @apply text-lg
+}
+</style>
+
+---
+
+# Comme itérables (ou itérateurs)
+
+```js {1-5|1-5,7-8|1-5,10-13|1-5,15-19|all}
+function* compteJusquà3() {
+  yield 1
+  yield 2
+  yield 3
+}
+
+console.log([...compteJusquà3()])        // [1, 2, 3]
+console.log(Array.from(compteJusquà3())) // [1, 2, 3]
+
+for (const value of compteJusquà3()) console.log(value)
+// 1
+// 2
+// 3
+
+const iterateur = compteJusquà3()
+console.log(iterateur.next()) // { value: 1, done: false }
+console.log(iterateur.next()) // { value: 2, done: false }
+console.log(iterateur.next()) // { value: 3, done: false }
+console.log(iterateur.next()) // { value: undefined, done: true }
+```
+
+---
+
+# Comme itérables (ou itérateurs)
+
+```js {-6|8-|all}
+function* range(start, end, step = 1) {
+  for (let i = start; i <= end; i += step) yield i
+}
+
+console.log([...range(1, 9, 2)])                  // [1, 3, 5, 7, 9]
+console.log(Array.from(range(0, 4), x => 2 ** x)) // [1, 2, 4, 8, 16]
+
+function* fibonacci(n) {
+  for (let [i, a, b] = [0, 0, 1]; i < n; [i, a, b] = [i + 1, b, a + b]) yield a
+}
+
+console.log([...fibonacci(10)]) // [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+```
+
+<style>
+code {
+  @apply text-base
+}
+</style>

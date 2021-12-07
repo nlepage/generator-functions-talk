@@ -1,4 +1,4 @@
-# Les fonctions génératrices en JavaScript
+# Les fonctions génératrices en JS
 
 https://nlepage.github.io/generator-functions-talk/
 
