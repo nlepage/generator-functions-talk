@@ -42,21 +42,21 @@ code {
 # Comme itérables (ou itérateurs)
 
 ```js {1-5|1-5,7-8|1-5,10-13|1-5,15-19|all}
-function* compteJusquà3() {
+function* compterJusquà3() {
   yield 1
   yield 2
   yield 3
 }
 
-console.log([...compteJusquà3()])        // [1, 2, 3]
-console.log(Array.from(compteJusquà3())) // [1, 2, 3]
+console.log([...compterJusquà3()])        // [1, 2, 3]
+console.log(Array.from(compterJusquà3())) // [1, 2, 3]
 
-for (const value of compteJusquà3()) console.log(value)
+for (const value of compterJusquà3()) console.log(value)
 // 1
 // 2
 // 3
 
-const iterateur = compteJusquà3()
+const iterateur = compterJusquà3()
 console.log(iterateur.next()) // { value: 1, done: false }
 console.log(iterateur.next()) // { value: 2, done: false }
 console.log(iterateur.next()) // { value: 3, done: false }
@@ -87,3 +87,55 @@ code {
   @apply text-base
 }
 </style>
+
+---
+
+# Syntaxes : fonctions et méthodes
+
+```js {1-3|5-7|9-13|15-19|all}
+const anonyme = function*() {
+  // ...
+}
+
+function* nommée() {
+  // ...
+}
+
+class Exemple {
+  * méthode() {
+    // ...
+  }
+}
+
+const exemple = {
+  * méthode() {
+    // ...
+  }
+}
+```
+
+---
+
+# ⛔ Syntaxes : fonctions fléchées
+
+```js
+// Irregular
+() =*> ...
+
+// not the same order as in regular generator functions
+() =>* ...
+
+// also wrong order
+() *=> ...
+
+// ASI hazard
+*() => ...
+```
+
+🙃 Mot clé *generator* ? ([à l'étape 1 au tc39](https://github.com/tc39/proposal-generator-arrow-functions)) 
+
+```js
+generator function() {}
+
+const foo = generator () => {}
+```
