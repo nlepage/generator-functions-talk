@@ -33,7 +33,7 @@ code {
  - Les syntaxes (fonctions/méthodes, fonctions/méthodes asynchrones, yield, yield*, computed property)
  - Les générateurs
  - Comme code (défaut: contamination comme async/await)
- - Les runners/schedulers (task.js LOL, redux-saga, effection, cuillere!)
+ - Les runners/schedulers (task.js, co, redux-saga, effection, cuillere!)
  - Aller plus loin (effets algébriques)
 -->
 
@@ -56,11 +56,11 @@ for (const value of compterJusquà3()) console.log(value)
 // 2
 // 3
 
-const iterateur = compterJusquà3()
-console.log(iterateur.next()) // { value: 1, done: false }
-console.log(iterateur.next()) // { value: 2, done: false }
-console.log(iterateur.next()) // { value: 3, done: false }
-console.log(iterateur.next()) // { value: undefined, done: true }
+const itérateur = compterJusquà3()
+console.log(itérateur.next()) // { value: 1, done: false }
+console.log(itérateur.next()) // { value: 2, done: false }
+console.log(itérateur.next()) // { value: 3, done: false }
+console.log(itérateur.next()) // { value: undefined, done: true }
 ```
 
 ---
@@ -138,4 +138,31 @@ const exemple = {
 generator function() {}
 
 const foo = generator () => {}
+```
+
+---
+
+# Syntaxes : génératrices et asynchrones
+
+```js {-5|2-3|4|7-10|12-14|16-|all}
+async function* getNombres() {
+  const res = await fetch('https://example.com/nombres')
+  const nombres = await res.json()
+  for (const n of nombres) yield n
+}
+
+const itérateur = getNombres()
+console.log(await itérateur.next()) // { value: 42, done: false }
+console.log(await itérateur.next()) // { value: 1024, done: false }
+console.log(await itérateur.next()) // { value: undefined, done: true }
+
+for await (const n of getNombres()) console.log(n)
+// 42
+// 1024
+
+const exemple = {
+  async* méthode() {
+    // ...
+  }
+}
 ```
