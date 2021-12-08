@@ -30,7 +30,7 @@ code {
 <!--
 ## Plan
  - Comme itérables
- - Les syntaxes (fonctions/méthodes, fonctions/méthodes asynchrones, yield, yield*, computed property)
+ - Les syntaxes (fonctions/méthodes, fonctions/méthodes asynchrones, yield, yield*)
  - Les générateurs
  - Comme code (défaut: contamination comme async/await)
  - Les runners/schedulers (task.js, co, redux-saga, effection, cuillere!)
@@ -210,14 +210,14 @@ code {
 # Syntaxes : return
 
 ```js {-3|5-6|8|all}
-function* renvoieLaRéponse() {
+function* renvoyerLaRéponse() {
   return 42
 }
 
-const itérateur = renvoieLaRéponse()
+const itérateur = renvoyerLaRéponse()
 console.log(itérateur.next()) // { value: 42, done: true }
 
-console.log([...renvoieLaRéponse()]) // []
+console.log([...renvoyerLaRéponse()]) // []
 ```
 
 <style>
@@ -229,3 +229,23 @@ code {
 ---
 
 # Syntaxes : yield*
+
+```js {-8|2|4|6-7|10-|all}
+function* exemple() {
+  yield* [1, 2, 3]
+
+  yield* range(4, 6)
+
+  const réponse = yield* renvoyerLaRéponse()
+  yield réponse
+}
+
+console.log([...exemple()])
+// [1, 2, 3, 4, 5, 6, 42]
+```
+
+<style>
+code {
+  @apply text-lg
+}
+</style>
