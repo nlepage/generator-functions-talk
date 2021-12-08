@@ -38,8 +38,14 @@ code {
 -->
 
 ---
+layout: section
+---
 
-# Comme itérables (ou itérateurs)
+# Comme itérables
+
+---
+
+# Comme itérables
 
 ```js {1-5|1-5,7-8|1-5,10-13|1-5,15-19|all}
 function* compterJusquà3() {
@@ -65,7 +71,7 @@ console.log(itérateur.next()) // { value: undefined, done: true }
 
 ---
 
-# Comme itérables (ou itérateurs)
+# Comme itérables
 
 ```js {-6|8-|all}
 function* range(start, end, step = 1) {
@@ -87,6 +93,12 @@ code {
   @apply text-base
 }
 </style>
+
+---
+layout: section
+---
+
+# Syntaxes
 
 ---
 
@@ -166,3 +178,54 @@ const exemple = {
   }
 }
 ```
+
+---
+
+# Syntaxes : yield
+
+```js {-10|2-4|6-7|9|12-|all}
+function* exemple() {
+  yield 123
+  yield 'foo'
+  yield { x: 1, y: 2, z: 3 }
+
+  yield
+  yield undefined
+
+  const valeur = yield 'va chercher la valeur'
+}
+
+console.log([...exemple()])
+// [123, 'foo', { x: 1, y: 2, z: 3 }, undefined, undefined, 'va chercher la valeur']
+```
+
+<style>
+code {
+  @apply text-base
+}
+</style>
+
+---
+
+# Syntaxes : return
+
+```js {-3|5-6|8|all}
+function* renvoieLaRéponse() {
+  return 42
+}
+
+const itérateur = renvoieLaRéponse()
+console.log(itérateur.next()) // { value: 42, done: true }
+
+console.log([...renvoieLaRéponse()]) // []
+```
+
+<style>
+code {
+  @apply text-lg
+}
+</style>
+
+---
+
+# Syntaxes : yield*
