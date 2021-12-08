@@ -154,33 +154,6 @@ const foo = generator () => {}
 
 ---
 
-# Syntaxes : génératrices et asynchrones
-
-```js {-5|2-3|4|7-10|12-14|16-|all}
-async function* getNombres() {
-  const res = await fetch('https://example.com/nombres')
-  const nombres = await res.json()
-  for (const n of nombres) yield n
-}
-
-const itérateur = getNombres()
-console.log(await itérateur.next()) // { value: 42, done: false }
-console.log(await itérateur.next()) // { value: 1024, done: false }
-console.log(await itérateur.next()) // { value: undefined, done: true }
-
-for await (const n of getNombres()) console.log(n)
-// 42
-// 1024
-
-const exemple = {
-  async* méthode() {
-    // ...
-  }
-}
-```
-
----
-
 # Syntaxes : yield
 
 ```js {-10|2-4|6-7|9|12-|all}
@@ -249,3 +222,30 @@ code {
   @apply text-lg
 }
 </style>
+
+---
+
+# Syntaxes : génératrices et asynchrones
+
+```js {-5|2-3|4|7-10|12-14|16-|all}
+async function* getNombres() {
+  const res = await fetch('https://example.com/nombres')
+  const nombres = await res.json()
+  for (const n of nombres) yield n
+}
+
+const itérateur = getNombres()
+console.log(await itérateur.next()) // { value: 42, done: false }
+console.log(await itérateur.next()) // { value: 1024, done: false }
+console.log(await itérateur.next()) // { value: undefined, done: true }
+
+for await (const n of getNombres()) console.log(n)
+// 42
+// 1024
+
+const exemple = {
+  async* méthode() {
+    // ...
+  }
+}
+```
