@@ -249,3 +249,56 @@ const exemple = {
   }
 }
 ```
+
+---
+layout: section
+---
+
+# Générateurs
+
+---
+
+# Générateurs
+
+```ts {all|2|3|4|7-|all}
+interface Generator {
+  next(value: any): IteratorResult
+  throw(e: any): IteratorResult
+  return(value: any): IteratorResult
+}
+
+interface IteratorResult {
+  done: boolean
+  value: any
+}
+```
+
+<style>
+code {
+  @apply text-lg
+}
+</style>
+
+---
+
+# Issue 10238: Async generator: catched error on last yield is wrongly rethrown
+
+```js
+async function* gen() {
+  try {
+    yield 42
+  } catch(e) {
+    console.log('Error caught!')
+  }
+}
+
+(async () => {
+  const g = gen()
+  await g.next() // go to yield 42
+  try {
+    await g.throw(new Error()) // throw error from the yield
+  } catch (e) {
+    console.error('e has been rethrown !')
+  }
+})()
+```
