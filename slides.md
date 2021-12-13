@@ -165,11 +165,11 @@ function* exemple() {
   yield
   yield undefined
 
-  const valeur = yield 'va chercher la valeur'
+  const valeur = yield 'chercher la valeur'
 }
 
 console.log([...exemple()])
-// [123, 'foo', { x: 1, y: 2, z: 3 }, undefined, undefined, 'va chercher la valeur']
+// [123, 'foo', { x: 1, y: 2, z: 3 }, undefined, undefined, 'chercher la valeur']
 ```
 
 <style>
@@ -276,6 +276,71 @@ interface IteratorResult {
 <style>
 code {
   @apply text-lg
+}
+</style>
+
+---
+layout: two-cols
+---
+
+<template v-slot:default>
+
+# Générateurs
+
+```js
+
+
+function* exemple() {
+
+  // ...
+
+  const resultat = yield 'tâche 1'
+  console.log(resultat) // 'OK'
+
+  try {
+    yield 'tâche 2'
+  } catch (e) {
+    console.error(e) // 'KO'
+  }
+
+  while (true) yield 'infini'
+
+  yield 'inaccessible'
+}
+```
+
+</template>
+<template v-slot:right>
+
+# &nbsp;
+
+```js
+const gen = exemple()
+
+gen.next() // { value: 'tâche 1', done: false }
+
+// ...
+
+gen.next('OK') // { value: 'tâche 2', done: false }
+
+
+
+gen.throw('KO') // { value: 'infini', done: false }
+
+
+
+
+gen.return('STOP') // { value: 'STOP', done: true }
+
+gen.next() // { value: undefined, done: true }
+
+```
+
+</template>
+
+<style>
+code {
+  @apply text-xs
 }
 </style>
 
