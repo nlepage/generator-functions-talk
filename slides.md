@@ -32,8 +32,8 @@ code {
  - Comme itérables
  - Les syntaxes (fonctions/méthodes, fonctions/méthodes asynchrones, yield, yield*)
  - Les générateurs
- - Comme code (défaut: contamination comme async/await)
  - Les runners/schedulers (task.js, co, redux-saga, effection, cuillere!)
+ - Comme code (défaut: contamination comme async/await)
  - Aller plus loin (effets algébriques)
 -->
 
@@ -105,11 +105,11 @@ layout: section
 # Syntaxes : fonctions et méthodes
 
 ```js {1-3|5-7|9-13|15-19|all}
-const anonyme = function*() {
+function* nommée() {
   // ...
 }
 
-function* nommée() {
+const anonyme = function*() {
   // ...
 }
 
@@ -251,6 +251,12 @@ const exemple = {
 ```
 
 ---
+layout: statement
+---
+
+# The end ?
+
+---
 layout: section
 ---
 
@@ -323,7 +329,7 @@ gen.next() // { value: 'tâche 1', done: false }
 
 gen.next('OK') // { value: 'tâche 2', done: false }
 
-
+// ...
 
 gen.throw('KO') // { value: 'infini', done: false }
 
@@ -343,6 +349,44 @@ code {
   @apply text-xs
 }
 </style>
+
+---
+layout: section
+---
+
+# Runners / Schedulers
+
+---
+
+# Runners / Schedulers : pour faire du async/await
+
+-  [co](https://github.com/tj/co)
+-  [task.js](https://github.com/mozilla/task.js)
+
+Exemple avec co :
+
+```js
+import co from 'co'
+
+function* main() {
+  const res = yield fetch('https://api.punkapi.com/v2/beers/106')
+  const data = yield res.json()
+  console.log(data)
+}
+
+co(main).catch(e => console.error(e))
+```
+
+<style>
+code {
+  @apply text-base
+}
+</style>
+
+<!--
+Fonctions génératrices en ES6/ES2015
+async/await en ES2017
+-->
 
 ---
 
@@ -367,3 +411,9 @@ async function* gen() {
   }
 })()
 ```
+
+<!--
+ - génératrice asynchrone
+ - throw du dernière yield
+ - absence de return explicite
+-->
