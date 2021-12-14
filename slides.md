@@ -360,10 +360,8 @@ layout: section
 
 # Runners / Schedulers : pour faire du async/await
 
--  [co](https://github.com/tj/co)
--  [task.js](https://github.com/mozilla/task.js)
-
-Exemple avec co :
+## [co](https://github.com/tj/co)
+## [task.js](https://github.com/mozilla/task.js)
 
 ```js
 import co from 'co'
@@ -386,6 +384,125 @@ code {
 <!--
 Fonctions génératrices en ES6/ES2015
 async/await en ES2017
+-->
+
+---
+
+# Runners / Schedulers : pour les effets de bord
+
+## [redux-saga](https://redux-saga.js.org/)
+
+```js
+function* fetchUser(action) {
+  try {
+    const user = yield call(Api.fetchUser, action.payload.userId)
+    yield put({type: "USER_FETCH_SUCCEEDED", user: user})
+  } catch (e) {
+    yield put({type: "USER_FETCH_FAILED", message: e.message})
+  }
+}
+
+function* rootSaga() {
+  yield takeEvery("USER_FETCH_REQUESTED", fetchUser)
+}
+```
+
+<style>
+code {
+  @apply text-base
+}
+</style>
+
+<!--
+Mieux gérer effets bord application (asynchrone, récup données): facile, efficace, résilient, testable
+
+Saga: fonction (thread séparé) responsable gérer effet bord
+
+Effet: simple objet JS contenant des instructions à exécuter (par scheduler redux-saga)
+-->
+
+---
+
+# Runners / Schedulers : pour les effets de bord
+
+## [Effection](https://frontside.com/effection/docs/guides/introduction)
+
+```js
+import { fetch, main, withTimeout } from 'effection'
+
+main(function*() {
+  let dayOfTheWeek = yield withTimeout(fetchWeekDay('est'), 1000)
+  console.log(`It is ${dayOfTheWeek}, my friends!`)
+})
+
+export function *fetchWeekDay(timezone) {
+  let response = yield fetch(`http://worldclockapi.com/api/json/${timezone}/now`)
+  let time = yield response.json()
+  return time.dayOfTheWeek
+}
+```
+
+
+<style>
+code {
+  @apply text-base
+}
+</style>
+
+<!--
+Généraliste, pour Node et Navigateur
+
+ - Cleanup
+ - Cancellation
+ - Composition
+-->
+
+---
+
+# Runners / Schedulers : pour les effets de bord
+
+## [🥄 Cuillere](https://github.com/cuillerejs/cuillere)
+
+```js {-8|10-|all}
+async function inscrireEtudiant({ etudiant, formation }) {
+  return crud.transactional(client => {
+    await creerDossierEtudiant(etudiant, client)
+    await creerDossierFinancier(etudiant, client)
+    await inscrireEtudiantFormation(etudiant, formation, client)
+    // ...
+  })
+}
+
+function* inscrireEtudiant({ etudiant, formation }) {
+  yield creerDossierEtudiant(etudiant)
+  yield creerDossierFinancier(etudiant)
+  yield inscrireEtudiantFormation(etudiant, formation)
+  // ...
+}
+```
+
+<!--
+Gestionnaire d'effet sous forme plugin.
+-->
+
+---
+
+# Runners / Schedulers : pour les effets de bord
+
+## [🥄 Cuillere](https://github.com/cuillerejs/cuillere)
+
+```js {-3|5-|all}
+async function recupererFormationEtudiant(etudiant, dataSources) {
+  return dataSources.formations.get(etudiant.idFormation)
+}
+
+function* recupererFormationEtudiant(etudiant) {
+  return yield crud.formations.get(etudiant.idFormation)
+}
+```
+
+<!--
+Gestionnaire d'effet sous forme plugin.
 -->
 
 ---
@@ -417,3 +534,24 @@ async function* gen() {
  - throw du dernière yield
  - absence de return explicite
 -->
+
+---
+
+# Inconvénients
+
+<v-clicks>
+
+ - Nouvelles syntaxes / pratiques
+ - Nécessité d'un framework
+ - Mauvais support du typage
+ - Contamination du code
+
+</v-clicks>
+
+---
+layout: statement
+---
+
+# Pour aller plus loin
+
+## Effets algébriques
